@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Bienvenido, usuario de Discord</h1>
+    <p id="userinfo"></p>
+    <script>
+        const cookie = document.cookie.replace(/(?:(?:^|.*;\s*)userinfo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        const decodedCookie = decodeURIComponent(cookie);
+        const userinfo = JSON.parse(decodedCookie);
+        document.getElementById('userinfo').innerText = `Usuario en el servidor: ${userinfo.isInServer}, Administrador: ${userinfo.isAdmin}`;
+    </script>
+</body>
+</html>

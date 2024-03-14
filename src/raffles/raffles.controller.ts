@@ -10,7 +10,7 @@ import {
 import { RafflesService } from './raffles.service';
 import { CreateRaffleDto } from './dto/raffle.dto';
 
-@Controller('raffles')
+@Controller('api/raffles')
 export class RafflesController {
   constructor(private raffleService: RafflesService) {}
 
