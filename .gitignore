@@ -33,3 +33,56 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Dependency directories (comment out if necessary)
+/bower_components
+
+# dotenv environment variable files
+.env
+
+# Node files
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Mac files
+.DS_Store
+
+# Temp files
+*.tmp
+*.swp
+*~
+
+# JetBrains IDE
+.idea/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# OS generated files
+ehthumbs.db
+Thumbs.db
