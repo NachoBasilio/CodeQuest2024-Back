@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { URLSearchParams } from 'url';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class DiscordService {
@@ -25,7 +26,7 @@ export class DiscordService {
           },
         );
 
-        if (output.data) {
+        if (output && output.data) {
           const accessToken = output.data.access_token;
           const userinfo = await axios.get(
             'https://discord.com/api/users/@me',
@@ -45,23 +46,34 @@ export class DiscordService {
             },
           );
 
-          const isInServer = guilds.data.some(
-            (guild) => guild.id === process.env.CHANNEL_ID,
-          );
+          if (guilds && guilds.data) {
+            const isInServer = guilds.data.some(
+              (guild) => guild.id === process.env.CHANNEL_ID,
+            );
 
-          const isAdmin = guilds.data.some(
-            (guild) =>
-              guild.id === process.env.CHANNEL_ID && guild.permissions & 0x8,
-          );
+            const isAdmin = guilds.data.some(
+              (guild) =>
+                guild.id === process.env.CHANNEL_ID && guild.permissions & 0x8,
+            );
 
-          return {
-            isInServer,
-            isAdmin,
-            userinfo: userinfo.data,
-          };
+            const payload = {
+              isInServer,
+              isAdmin,
+              userinfo: userinfo.data,
+            };
+
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {
+              expiresIn: '1h',
+            });
+
+            return {
+              token,
+              ...payload,
+            };
+          }
         }
       } catch (error) {
-        console.error(error.response.data);
+        console.error(error);
       }
     }
   }
