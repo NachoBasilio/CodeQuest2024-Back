@@ -13,6 +13,6 @@ export class DiscordController {
     console.log(token);
     res.cookie('token', token);
     res.cookie('userinfo', JSON.stringify(userinfo));
-    res.redirect('https://www.google.com/');
+    res.redirect('http://localhost:3000/auth');
   }
 }
