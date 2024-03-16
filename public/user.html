@@ -5,9 +5,13 @@
     <p id="userinfo"></p>
     <script>
         const cookie = document.cookie.replace(/(?:(?:^|.*;\s*)userinfo\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        const jwtCookie = document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
         const decodedCookie = decodeURIComponent(cookie);
         const userinfo = JSON.parse(decodedCookie);
-        document.getElementById('userinfo').innerText = `Usuario en el servidor: ${userinfo.isInServer}, Administrador: ${userinfo.isAdmin}`;
+        console.log(decodedCookie);
+        console.log('JWT:', jwtCookie);
+        document.getElementById('userinfo').innerText = `Usuario en el servidor: ${userinfo.isInServer}, Administrador:`
     </script>
 </body>
 </html>

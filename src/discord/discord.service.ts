@@ -5,14 +5,15 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class DiscordService {
-  async authDiscord(code: string) {
+  async authDiscord(code: string, number: string) {
     if (code) {
       const fromData = new URLSearchParams({
         client_id: process.env.CLIENT_ID,
         client_secret: process.env.CLIENT_SECRET,
         grant_type: 'authorization_code',
         code: code.toString(),
-        redirect_uri: 'http://localhost:3000/api/auth/discord/redirect/',
+        redirect_uri:
+          'http://localhost:3000/api/auth/discord/redirect/' + number,
       });
 
       try {

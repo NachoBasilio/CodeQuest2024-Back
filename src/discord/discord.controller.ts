@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res, Param } from '@nestjs/common';
 import { DiscordService } from './discord.service';
 import { Response } from 'express';
 
@@ -6,13 +6,23 @@ import { Response } from 'express';
 export class DiscordController {
   constructor(private readonly discordService: DiscordService) {}
 
-  @Get('/redirect')
-  async authDiscord(@Query('code') code: string, @Res() res: Response) {
-    const { token, ...userinfo } = await this.discordService.authDiscord(code);
-    console.log(userinfo);
-    console.log(token);
-    res.cookie('token', token);
-    res.cookie('userinfo', JSON.stringify(userinfo));
-    res.redirect('http://localhost:3000/auth');
+  @Get('/redirect/:id')
+  async authDiscord(
+    @Query('code') code: string,
+    @Res() res: Response,
+    @Param('id') id: string,
+  ) {
+    try {
+      const { token, ...userinfo } = await this.discordService.authDiscord(
+        code,
+        id,
+      );
+      console.log(id);
+      res.cookie('token', token);
+      res.cookie('userinfo', JSON.stringify(userinfo));
+      res.redirect('/user.html');
+    } catch (error) {
+      console.error('Error al autenticar con Discord:', error);
+    }
   }
 }
