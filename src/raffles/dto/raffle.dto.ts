@@ -4,4 +4,5 @@ export class CreateRaffleDto {
   dateFinish: string;
   description: string;
   award: string;
+  id: string;
 }

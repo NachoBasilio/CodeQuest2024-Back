@@ -1,58 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { Raffle } from './raffles.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class RafflesService {
-  private raffles: Raffle[] = [
-    {
-      id: '1',
-      participants: ['Nacho'],
-      dateStart: 'Hoy',
-      dateFinish: 'Mañana',
-      award: 'nintendo switch',
-      description: "Una consola de 'ultima' generacion",
-    },
-  ];
+  constructor(
+    @InjectModel('Raffle') private readonly raffleModel: Model<Raffle>,
+  ) {}
 
-  getAllRaffles() {
-    return this.raffles;
+  async getAllRaffles() {
+    return await this.raffleModel.find().exec();
   }
-  createARaffle(
+
+  async getRaffleById(id: string) {
+    return await this.raffleModel.findById(id).exec();
+  }
+
+  async createARaffle(
+    id: string,
     participants: string[],
     dateStart: string,
     dateFinish: string,
     award: string,
     description: string,
   ) {
-    this.raffles.push({
+    const newRaffle = new this.raffleModel({
+      id,
       participants,
-      dateFinish,
       dateStart,
+      dateFinish,
       award,
       description,
-      id: (this.raffles.length + 1).toString(),
     });
+    return await newRaffle.save();
   }
 
-  getRaffleById(id: string) {
-    return this.raffles.find((el) => el.id === id);
+  async updateRaffle(id: string, updatedFields: any) {
+    return await this.raffleModel
+      .findByIdAndUpdate(id, updatedFields, { new: true })
+      .exec();
   }
 
-  updateRaffle(id: string, updatedFields: any) {
-    this.raffles = this.raffles.map((el) => {
-      if (el.id === id) {
-        return {
-          ...el,
-          ...updatedFields,
-        };
-      }
-      return el;
-    });
-  }
-
-  deleteRaffle(id: string) {
-    this.raffles = this.raffles.filter((el) => {
-      return el.id !== id;
-    });
+  async deleteRaffle(id: string) {
+    return await this.raffleModel.findByIdAndDelete(id).exec();
   }
 }

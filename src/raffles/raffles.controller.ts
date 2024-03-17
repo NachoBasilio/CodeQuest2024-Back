@@ -15,36 +15,40 @@ export class RafflesController {
   constructor(private raffleService: RafflesService) {}
 
   @Get()
-  getAllReffles() {
-    return this.raffleService.getAllRaffles();
+  async getAllReffles() {
+    return await this.raffleService.getAllRaffles();
   }
 
   @Post()
-  createRaffle(@Body() newRaffle: CreateRaffleDto) {
-    this.raffleService.createARaffle(
+  async createRaffle(@Body() newRaffle: CreateRaffleDto) {
+    const createdRaffle = await this.raffleService.createARaffle(
+      newRaffle.id,
       newRaffle.participants,
       newRaffle.dateStart,
       newRaffle.dateFinish,
       newRaffle.award,
       newRaffle.description,
     );
-    return 'Guardado';
+    return 'Sorteo creado con ID: ' + createdRaffle.id;
   }
 
   @Delete(':id')
-  deleteRaffle(@Param('id') id: string) {
-    this.raffleService.deleteRaffle(id);
-    return 'id eliminado';
+  async deleteRaffle(@Param('id') id: string) {
+    await this.raffleService.deleteRaffle(id);
+    return 'Sorteo con ID ' + id + ' eliminado';
   }
 
   @Get(':id')
-  getRaffleById(@Param('id') id: string) {
-    return this.raffleService.getRaffleById(id);
+  async getRaffleById(@Param('id') id: string) {
+    return await this.raffleService.getRaffleById(id);
   }
 
   @Put(':id')
-  updateRaffle(@Param('id') id: string, @Body() updatedFields: any) {
-    this.raffleService.updateRaffle(id, updatedFields);
-    return 'Actualizado';
+  async updateRaffle(@Param('id') id: string, @Body() updatedFields: any) {
+    const updatedRaffle = await this.raffleService.updateRaffle(
+      id,
+      updatedFields,
+    );
+    return 'Sorteo con ID ' + updatedRaffle.id + ' actualizado';
   }
 }
