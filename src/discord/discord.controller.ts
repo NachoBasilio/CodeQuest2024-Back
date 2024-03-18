@@ -17,7 +17,6 @@ export class DiscordController {
         code,
         id,
       );
-      console.log(id);
       res.cookie('token', token);
       res.cookie('userinfo', JSON.stringify(userinfo));
       res.redirect('/user.html');
