@@ -28,13 +28,14 @@ Ahora deberías tener el servidor corriendo en http://localhost:(Puerto que indi
 
 El backend expone las siguientes rutas:
 
-GET /api/raffles: Obtiene todos los sorteos.
-POST /api/raffles: Crea un nuevo sorteo.
-DELETE /api/raffles/:idRaffle: Elimina un sorteo por su ID.
-GET /api/raffles/:idRaffle: Obtiene un sorteo por su ID.
-PUT /api/raffles/:idRaffle: Actualiza un sorteo por su ID.
-POST /api/raffles/:idRaffle/participants: Agrega un participante a un sorteo.
-DELETE /api/raffles/:idRaffle/participants/:participantId: Elimina un participante de un sorteo.
-Además, el backend proporciona una ruta para autenticar con Discord:
+- GET /api/raffles: Obtiene todos los sorteos.
+- POST /api/raffles: Crea un nuevo sorteo.
+- DELETE /api/raffles/:idRaffle: Elimina un sorteo por su ID.
+- GET /api/raffles/:idRaffle: Obtiene un sorteo por su ID.
+- PUT /api/raffles/:idRaffle: Actualiza un sorteo por su ID.
+- POST /api/raffles/:idRaffle/participants: Agrega un participante a un sorteo.
+- DELETE /api/raffles/:idRaffle/participants/:participantId: Elimina un participante de un sorteo.
+
+### Además, el backend proporciona una ruta para autenticar con Discord:
 
 GET /api/auth/discord/redirect/:id: Autentica a un usuario con Discord y redirige a /user.html.
