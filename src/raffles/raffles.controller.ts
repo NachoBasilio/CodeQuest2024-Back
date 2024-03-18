@@ -22,33 +22,56 @@ export class RafflesController {
   @Post()
   async createRaffle(@Body() newRaffle: CreateRaffleDto) {
     const createdRaffle = await this.raffleService.createARaffle(
-      newRaffle.id,
+      newRaffle.idRaffle,
       newRaffle.participants,
       newRaffle.dateStart,
       newRaffle.dateFinish,
       newRaffle.award,
       newRaffle.description,
     );
-    return 'Sorteo creado con ID: ' + createdRaffle.id;
+    return 'Sorteo creado con ID: ' + createdRaffle.idRaffle;
   }
 
-  @Delete(':id')
-  async deleteRaffle(@Param('id') id: string) {
-    await this.raffleService.deleteRaffle(id);
-    return 'Sorteo con ID ' + id + ' eliminado';
+  @Delete(':idRaffle')
+  async deleteRaffle(@Param('idRaffle') idRaffle: string) {
+    await this.raffleService.deleteRaffle(idRaffle);
+    return 'Sorteo con ID ' + idRaffle + ' eliminado';
   }
 
-  @Get(':id')
-  async getRaffleById(@Param('id') id: string) {
-    return await this.raffleService.getRaffleById(id);
+  @Get(':idRaffle')
+  async getRaffleById(@Param('idRaffle') idRaffle: string) {
+    return await this.raffleService.getRaffleById(idRaffle);
   }
 
-  @Put(':id')
-  async updateRaffle(@Param('id') id: string, @Body() updatedFields: any) {
+  @Put(':idRaffle')
+  async updateRaffle(
+    @Param('idRaffle') idRaffle: string,
+    @Body() updatedFields: any,
+  ) {
     const updatedRaffle = await this.raffleService.updateRaffle(
-      id,
+      idRaffle,
       updatedFields,
     );
-    return 'Sorteo con ID ' + updatedRaffle.id + ' actualizado';
+    return 'Sorteo con ID ' + updatedRaffle.idRaffle + ' actualizado';
+  }
+  @Post(':idRaffle/participants')
+  async addParticipant(
+    @Param('idRaffle') idRaffle: string,
+    @Body('participant') participant: string,
+  ) {
+    const updatedRaffle = await this.raffleService.addParticipant(
+      idRaffle,
+      participant,
+    );
+    return 'Participante agregado al sorteo con ID ' + updatedRaffle.idRaffle;
+  }
+
+  @Delete(':idRaffle/participants/:participantId')
+  async removeParticipant(
+    @Param('idRaffle') idRaffle: string,
+    @Param('participantId') participantId: string,
+  ) {
+    await this.raffleService.removeParticipant(idRaffle, participantId);
+    return 'Participante eliminado del sorteo con ID ' + idRaffle;
   }
 }

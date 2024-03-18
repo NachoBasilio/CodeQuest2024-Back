@@ -6,5 +6,5 @@ export const RaffleSchema = new Schema({
   dateFinish: { type: String, required: true },
   description: { type: String, required: true },
   award: { type: String, required: true },
-  id: { type: String, required: true },
+  idRaffle: { type: String, required: true },
 });

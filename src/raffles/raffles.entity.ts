@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export class Raffle extends Document {
-  id: string;
+  idRaffle: string;
   participants: string[];
   dateStart: string;
   dateFinish: string;

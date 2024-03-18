@@ -13,12 +13,12 @@ export class RafflesService {
     return await this.raffleModel.find().exec();
   }
 
-  async getRaffleById(id: string) {
-    return await this.raffleModel.findById(id).exec();
+  async getRaffleById(idRaffle: string) {
+    return await this.raffleModel.findOne({ idRaffle }).exec();
   }
 
   async createARaffle(
-    id: string,
+    idRaffle: string,
     participants: string[],
     dateStart: string,
     dateFinish: string,
@@ -26,7 +26,7 @@ export class RafflesService {
     description: string,
   ) {
     const newRaffle = new this.raffleModel({
-      id,
+      idRaffle,
       participants,
       dateStart,
       dateFinish,
@@ -36,13 +36,30 @@ export class RafflesService {
     return await newRaffle.save();
   }
 
-  async updateRaffle(id: string, updatedFields: any) {
+  async updateRaffle(idRaffle: string, updatedFields: any) {
     return await this.raffleModel
-      .findByIdAndUpdate(id, updatedFields, { new: true })
+      .findOneAndUpdate({ idRaffle }, updatedFields, { new: true })
       .exec();
   }
 
-  async deleteRaffle(id: string) {
-    return await this.raffleModel.findByIdAndDelete(id).exec();
+  async deleteRaffle(idRaffle: string) {
+    return await this.raffleModel.findOneAndDelete({ idRaffle }).exec();
+  }
+
+  async addParticipant(idRaffle: string, participant: any) {
+    const raffle = await this.raffleModel.findOne({ idRaffle }).exec();
+    raffle.participants.push(participant);
+    return await raffle.save();
+  }
+
+  async removeParticipant(idRaffle: string, participant: string) {
+    const raffle = await this.raffleModel.findOne({ idRaffle }).exec();
+    const index = raffle.participants.indexOf(participant);
+    if (index !== -1) {
+      raffle.participants.splice(index, 1);
+      return await raffle.save();
+    } else {
+      throw new Error('Participante no encontrado');
+    }
   }
 }
